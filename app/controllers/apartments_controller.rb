@@ -4,7 +4,7 @@ class ApartmentsController < ApplicationController
     end
 
     def show
-        apartment = Apartment.find(params[:id])
+        apartment = Apartment.find_by(id:params[:id])
         if apartment
             render json: apartment
         else
@@ -17,7 +17,7 @@ class ApartmentsController < ApplicationController
         if apartment.valid?
             render json: apartment, status: :created
         else
-            render json: { error: apartment.errors },status: :not_created
+            render json: { error: "Apartment info invalid" },status: :unprocessable_entity
         end
     end
 
@@ -27,7 +27,7 @@ class ApartmentsController < ApplicationController
             apartment.update(number:params[:number])
             render json: apartment
         else
-            render json: { error: apartment.errors },status: :not_found
+            render json: { error: "Apartment not found" },status: :not_found
         end
       
     end
